@@ -10,7 +10,7 @@ fi
 
 
 echo "Start installing ZSH..." 
-sudo -p "$passwod" apt-get install zsh
+echo $password | sudo -S apt-get install zsh
 chsh -s /bin/zsh
 
 echo "Installing oh-my-zsh..."
