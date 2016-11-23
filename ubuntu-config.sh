@@ -1,5 +1,7 @@
 #!/bin/bash
 
+localpath=`pwd`
+
 echo "This script finishes the configuration  automatic, only support Ubuntu."
 echo "Please make sure $USER has the privileges of 'sudo'."
  
@@ -21,15 +23,27 @@ sudo mv sources.list /etc/apt
 rm -f sources.list.wily
 
 sudo apt-get update
-sudo apt-get install -y git python-pip
+sudo apt-get install -y git python-pip bc
 
 echo "Update Finished."
  
-echo "Ready to  configure VIM"
-./vim-install.sh "$password"
-
 echo "Ready to install ZSH"
+cd "$localpath"
 ./zsh-install.sh "$password"
+
+echo "Configuring pip.."
+mkdir -p ~/.config/pip
+pipconfig="~/.config/pip/pip.conf"
+echo "[global]" > "$pipconfig"
+echo "index-url=http://pypi.doubanio.com/simple" >> "$pipconfig"
+echo "trusted-host=pypi.doubanio.com" >> "$pipconfig"
+
+echo "export PIP_CONFIG_FILE=$pipconfig" >> ~/.bashrc >> ~/.zshrc
+source ~/.bashrc
+
+echo "Ready to  configure VIM"
+cd "$localpath"
+./vim-install.sh "$password"
 
 
 echo "Start configuring the development env."

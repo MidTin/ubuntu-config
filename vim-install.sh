@@ -33,8 +33,6 @@ function getPyConfig() {
     pyVersion=`ls $libpath | grep python$version\.`
     pyVersionNum=${pyVersion#python}
 
-    echo $pyVersionNum
-
     if [[ $(echo "${pyVersionNum} < 3.0" | bc) -eq 1 ]]
     then
         echo "$libpath/$pyVersion/config-x86_64-linux-gnu"
@@ -48,6 +46,9 @@ py3config=`getPyConfig 3`
 
 cd ~
 git clone https://github.com/vim/vim.git
+
+echo $py2config
+echo $py3config
 
 cd vim
 ./configure --with-features=huge \
@@ -73,8 +74,8 @@ sudo update-alternatives --set vi /usr/bin/vim
 echo "VIM install finished."
 
 echo "Start configuring VIM..."
-git clone https://github.com/MidTin/vim vim-config
-cp vim-config/vim/.vimrc ~/
+git clone https://github.com/MidTin/vim ~/vim-config
+cp ~/vim-config/.vimrc ~/
 
 # Install Vundle
 echo "Installing Vundle.."
@@ -85,22 +86,14 @@ sudo apt-get install -y build-essential cmake ctags python-pip
 sudo pip install pylama
 
 # Install Nodejs for js syntax completer
-cd ~/Downloads
-wget https://nodejs.org/dist/v6.9.1/node-v6.9.1.tar.gz
-tar -xvf node-v6.9.1.tar.gz
-
-cd node-v6.9.1
-./configure
-make
-sudo make install
-
+cd ~/downloads
+sudo apt-get install -y nodejs npm
 
 # Install plugins
 vim -c ":PluginInstall"
 
 # Compile the component of YCM
 cd ~/.vim/bundle/YouCompleteMe
-git submodule update --init --recursive
 ./install.py --clang-completer --tern-completer
 
 echo "VIM is ready."
