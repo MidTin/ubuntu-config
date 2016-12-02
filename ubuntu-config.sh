@@ -33,7 +33,7 @@ cd "$localpath"
 
 echo "Configuring pip.."
 mkdir -p ~/.config/pip
-pipconfig="~/.config/pip/pip.conf"
+pipconfig=~/.config/pip/pip.conf
 echo "[global]" > "$pipconfig"
 echo "index-url=http://pypi.doubanio.com/simple" >> "$pipconfig"
 echo "trusted-host=pypi.doubanio.com" >> "$pipconfig"
@@ -50,9 +50,9 @@ echo "Start configuring the development env."
 sudo pip install virtualenv
 sudo pip install virtualenvwrapper
 
-WORKON_HOME="~/envs"
+WORKON_HOME=~/envs
 mkdir -p $WORKON_HOME
-echo "export $WORKON_HOME" >> ~/.bashrc >> ~/.zshrc
+echo "export WOKRON_HOME=$WORKON_HOME" >> ~/.bashrc >> ~/.zshrc
 echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc >> ~/.zshrc
 
 source ~/.bashrc
